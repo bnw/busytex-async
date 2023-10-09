@@ -567,8 +567,8 @@ build/%/texlivedependencies: \
 	build/%/texlive/libs/lua53/.libs/libtexlua53.a \
 	build/%/texlive/libs/freetype2/libfreetype.a \
 	build/%/texlive/libs/xpdf/libxpdf.a \
-	# build/%/texlive/libs/icu/icu-build/lib/libicuuc.a \
-	# build/%/texlive/libs/icu/icu-build/lib/libicudata.a 
+	build/%/texlive/libs/icu/icu-build/lib/libicuuc.a \
+	build/%/texlive/libs/icu/icu-build/lib/libicudata.a \
 	build/%/fontconfig/src/.libs/libfontconfig.a
 
 .PHONY: build/native/busytexapplets build/wasm/busytexapplets
