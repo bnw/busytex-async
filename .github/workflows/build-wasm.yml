@@ -30,9 +30,6 @@ jobs:
           version: ${{env.EMSCRIPTEN_VERSION}}
 
       - uses: actions/checkout@v2
-      
-      - name: Check URLs exist
-        run:  make checkurlsfor404 || make checkurlsfor404 || make checkurlsfor404 
         
       - name: Clone/patch TexLive and dependencies
         run:  make source/texlive.downloaded build/versions.txt
