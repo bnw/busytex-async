@@ -22,7 +22,7 @@ BUSYWEB2C_LOCALIZE_SYMBOL = $(addprefix --localize-symbol=,filename tex out temp
 
 TOTAL_MEMORY         = 536870912
 CFLAGS_OPT_native    = -O3
-CFLAGS_OPT_wasm      = -Oz
+CFLAGS_OPT_wasm      = -Oz -DBUILDING_WASM -sASYNCIFY
 
 ROOT                := $(CURDIR)
 EMROOT              := $(dir $(shell which emcc))
@@ -174,7 +174,7 @@ OPTS_BUSYTEX_LINK_native =  $(OPTS_BUSYTEX_LINK)  build/native/libc.a -ldl -lm -
 
 #OPTS_BUSYTEX_LINK_native =  $(OPTS_BUSYTEX_LINK) -ldl -lm -pthread -lpthread -lc    -Wl,--unresolved-symbols=ignore-all -Wl,-E build/native/perl/busytex_perltools.a -L/usr/local/lib $(ROOT)/build/native/perl/prefix/lib/perl5/5.35.4/x86_64-linux/auto/Fcntl/Fcntl.a $(ROOT)/build/native/perl/prefix/lib/perl5/5.35.4/x86_64-linux/auto/IO/IO.a -L$(ROOT)/build/native/perl/prefix/lib/perl5/5.35.4/x86_64-linux/CORE -lperl -lutil
 
-OPTS_BUSYTEX_LINK_wasm   =  $(OPTS_BUSYTEX_LINK) -Wl,--unresolved-symbols=ignore-all -Wl,-error-limit=0 -sTOTAL_MEMORY=$(TOTAL_MEMORY) -sEXIT_RUNTIME=0 -sINVOKE_RUN=0 -sASSERTIONS=1 -sERROR_ON_UNDEFINED_SYMBOLS=0 -sFORCE_FILESYSTEM=1 -sLZ4=1 -sMODULARIZE=1 -sEXPORT_NAME=busytex -sEXPORTED_FUNCTIONS='["_main", "_flush_streams"]' -sEXPORTED_RUNTIME_METHODS='["callMain", "FS", "ENV", "LZ4", "PATH"]'
+OPTS_BUSYTEX_LINK_wasm   =  $(OPTS_BUSYTEX_LINK) -sASYNCIFY -sASYNCIFY_STACK_SIZE=65535 -Wl,--unresolved-symbols=ignore-all -Wl,-error-limit=0 -sTOTAL_MEMORY=$(TOTAL_MEMORY) -sEXIT_RUNTIME=0 -sINVOKE_RUN=0 -sASSERTIONS=1 -sERROR_ON_UNDEFINED_SYMBOLS=0 -sFORCE_FILESYSTEM=1 -sLZ4=1 -sMODULARIZE=1 -sEXPORT_NAME=busytex -sEXPORTED_FUNCTIONS='["_main", "_flush_streams", "_free", "_malloc"]' -sEXPORTED_RUNTIME_METHODS='["callMain", "FS", "ENV", "LZ4", "PATH", "ccall", "cwrap", "stackAlloc", "stringToUTF8OnStack", "stringToNewUTF8", "setValue", "MEMFS", "PROXYFS"]' -lproxyfs.js
 
 ##############################################################################################################################
 
@@ -206,7 +206,11 @@ source/texlive.downloaded source/expat.downloaded source/fontconfig.downloaded s
 	tar -xf "$(basename $@).tar.gz" --strip-components=1 --directory=$(basename $@)
 	touch $@
 
-build/%/texlive.configured: source/texlive.downloaded
+source/texlive.patched: source/texlive.downloaded $(shell find texlive-patches -name "*.patch.*")
+	git apply $(shell find texlive-patches -name "*.patch.*")
+	touch $@
+
+build/%/texlive.configured: source/texlive.patched
 	mkdir -p $(basename $@)
 	echo '' > $(CACHE_TEXLIVE_$*)
 	#CONFIG_SITE=$(CONFIGSITE_BUSYTEX) $(CONFIGURE_$*) $(abspath source/texlive/configure)		
@@ -603,7 +607,7 @@ native: build/native/fonts.conf
 .PHONY: wasm
 wasm: build/wasm/fonts.conf
 	$(MAKE) build/wasm/texlive.configured
-	$(MAKE) build/wasm/texlivedependencies
+	$(MAKE) build/wasm/texlivedependencies 
 	$(MAKE) build/wasm/busytexapplets
 	$(MAKE) build/wasm/busytex.js
 
@@ -674,7 +678,7 @@ clean:
 dist-wasm:
 	mkdir -p $@
 	-cp build/wasm/busytex.js       build/wasm/busytex.wasm       $@ 
-	-cp build/wasm/texlive-basic.js build/wasm/texlive-basic.data $@ 
+-cp build/wasm/texlive-basic.js build/wasm/texlive-basic.data $@ 
 	-cp build/wasm/ubuntu-*.js      build/wasm/ubuntu-*.data      $@ 
 
 .PHONY: dist-native
