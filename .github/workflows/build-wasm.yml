@@ -45,7 +45,7 @@ jobs:
             MAKEFLAGS: ${{env.MAKE_PARALLELISM}}
         run: make wasm
 
-- name: Download TexLive Full
+      - name: Download TexLive Full
         run:  make source/texmfrepo.txt
 
       - name: Install TexLive
