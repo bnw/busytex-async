@@ -678,7 +678,7 @@ clean:
 dist-wasm:
 	mkdir -p $@
 	-cp build/wasm/busytex.js       build/wasm/busytex.wasm       $@ 
--cp build/wasm/texlive-basic.js build/wasm/texlive-basic.data $@ 
+	-cp build/wasm/texlive-basic.js build/wasm/texlive-basic.data $@ 
 	-cp build/wasm/ubuntu-*.js      build/wasm/ubuntu-*.data      $@ 
 
 .PHONY: dist-native
