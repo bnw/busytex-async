@@ -12,3 +12,6 @@ example/bibtex/
 build/
 source/
 dist/
+node_modules/
+build-js/
+.DS_Store

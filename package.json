@@ -1,0 +1,27 @@
+{
+  "name": "busytex-async",
+  "version": "0.1.0",
+  "description": "Compile LaTex in your browser using WASM and asynchronously load required Tex packages",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "test": "npm run build && npx mocha build-js/test --ui tdd",
+    "createTexLiveFilesList": "npm run build && node build-js/scripts/createTexLiveFileList.js",
+    "watch": "tsc -watch -p ./"
+  },
+  "author": "Benjamin Klotz",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/mocha": "^10.0.2",
+    "@types/node": "^20.8.4",
+    "axios": "^1.5.1",
+    "basic-ftp": "^5.0.3",
+    "memorystream": "^0.3.1",
+    "mocha": "^10.2.0",
+    "pdf-parse": "^1.1.1",
+    "typescript": "^5.2.2"
+  }
+}
