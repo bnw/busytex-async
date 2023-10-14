@@ -338,23 +338,23 @@ build/%/texlive/texk/web2c/busyweb2c:
 	$(CC_$*) -o $@ $(basename $@).o $(OPTS_BUSYTEX_LINK_$*) $(addprefix $(dir $@)/, busytex_ctangle.o busytex_tangle.o busytex_otangle.o busytex_tangleboot.o busytex_ctangleboot.o cweb.o busytex_tie.o lib/busytex_lib.a) $(addprefix $(dir $@)/web2c/, busytex_splitup.o busytex_fixwrites.o busytex_makecpool.o web2c-parser.o web2c-lexer.o busytex_web2c.o libweb2c.a)
 
 build/%/busytex build/%/busytex.js:
-	$(CC_$*) -o build/native/log_file_access.lo -c log_file_access.c -DLOGFILEACCESSSTATIC
-	cp $(shell $(CC_$*) -print-file-name=libc.a) build/native/libc.a
-	$(NM_$*) build/native/libc.a
-	$(AR_$*) x build/native/libc.a fopen.lo open.lo
-	$(OBJCOPY_$*) --redefine-sym fopen=orig_fopen fopen.lo
-	$(OBJCOPY_$*) --redefine-sym open=orig_open open.lo
-	$(AR_$*) rs build/native/libc.a fopen.lo open.lo
-	$(AR_$*) rbs aio.lo build/native/libc.a build/native/log_file_access.lo
-	$(NM_$*) build/native/libc.a
+	#$(CC_$*) -o build/native/log_file_access.lo -c log_file_access.c -DLOGFILEACCESSSTATIC
+	#cp $(shell $(CC_$*) -print-file-name=libc.a) build/native/libc.a
+	#$(NM_$*) build/native/libc.a
+	#$(AR_$*) x build/native/libc.a fopen.lo open.lo
+	#$(OBJCOPY_$*) --redefine-sym fopen=orig_fopen fopen.lo
+	#$(OBJCOPY_$*) --redefine-sym open=orig_open open.lo
+	#$(AR_$*) rs build/native/libc.a fopen.lo open.lo
+	#$(AR_$*) rbs aio.lo build/native/libc.a build/native/log_file_access.lo
+	#$(NM_$*) build/native/libc.a
 	#
 	mkdir -p $(dir $@)
 	#$(CC_$*) -E -nostdinc  -o    $(basename $@).o -c busytex.c  $(OPTS_BUSYTEX_COMPILE_$*) $(CFLAGS_OPT_$*)
 	$(CC_$*)  -o    $(basename $@).o -c busytex.c  $(OPTS_BUSYTEX_COMPILE_$*) $(CFLAGS_OPT_$*)
-	#$(CXX_$*) -o $@ $(OPTS_BUSYTEX_LINK_$*) $(basename $@).o $(addprefix build/$*/texlive/texk/web2c/, $(OBJ_XETEX) $(OBJ_PDFTEX) $(OBJ_LUAHBTEX)) $(addprefix build/$*/, $(OBJ_BIBTEX) $(OBJ_DVIPDF) $(OBJ_DEPS) $(OBJ_MAKEINDEX)) $(addprefix build/$*/texlive/texk/kpathsea/, $(OBJ_KPATHSEA))
+	$(CXX_$*) -o $@ $(OPTS_BUSYTEX_LINK_$*) $(basename $@).o $(addprefix build/$*/texlive/texk/web2c/, $(OBJ_XETEX) $(OBJ_PDFTEX) $(OBJ_LUAHBTEX)) $(addprefix build/$*/, $(OBJ_BIBTEX) $(OBJ_DVIPDF) $(OBJ_DEPS) $(OBJ_MAKEINDEX)) $(addprefix build/$*/texlive/texk/kpathsea/, $(OBJ_KPATHSEA))
 	#
-	$(CXX_$*) -v --verbose -Wl,--verbose -Wl,-v -o $@ $(basename $@).o $(addprefix build/$*/texlive/texk/web2c/, $(OBJ_XETEX) $(OBJ_PDFTEX) $(OBJ_LUAHBTEX)) $(addprefix build/$*/, $(OBJ_BIBTEX) $(OBJ_DVIPDF) $(OBJ_DEPS) $(OBJ_MAKEINDEX))  $(addprefix build/$*/texlive/texk/kpathsea/, $(OBJ_KPATHSEA))   $(OPTS_BUSYTEX_LINK_$*) 
-	strace -e trace=process -s 1000000 -ff $(CXX_$*) -o $@ $(basename $@).o $(addprefix build/$*/texlive/texk/web2c/, $(OBJ_XETEX) $(OBJ_PDFTEX) $(OBJ_LUAHBTEX)) $(addprefix build/$*/, $(OBJ_BIBTEX) $(OBJ_DVIPDF) $(OBJ_DEPS) $(OBJ_MAKEINDEX))  $(addprefix build/$*/texlive/texk/kpathsea/, $(OBJ_KPATHSEA))   $(OPTS_BUSYTEX_LINK_$*) 	
+	#$(CXX_$*) -v --verbose -Wl,--verbose -Wl,-v -o $@ $(basename $@).o $(addprefix build/$*/texlive/texk/web2c/, $(OBJ_XETEX) $(OBJ_PDFTEX) $(OBJ_LUAHBTEX)) $(addprefix build/$*/, $(OBJ_BIBTEX) $(OBJ_DVIPDF) $(OBJ_DEPS) $(OBJ_MAKEINDEX))  $(addprefix build/$*/texlive/texk/kpathsea/, $(OBJ_KPATHSEA))   $(OPTS_BUSYTEX_LINK_$*) 
+	#strace -e trace=process -s 1000000 -ff $(CXX_$*) -o $@ $(basename $@).o $(addprefix build/$*/texlive/texk/web2c/, $(OBJ_XETEX) $(OBJ_PDFTEX) $(OBJ_LUAHBTEX)) $(addprefix build/$*/, $(OBJ_BIBTEX) $(OBJ_DVIPDF) $(OBJ_DEPS) $(OBJ_MAKEINDEX))  $(addprefix build/$*/texlive/texk/kpathsea/, $(OBJ_KPATHSEA))   $(OPTS_BUSYTEX_LINK_$*) 	
 	#
 	#$(LDD_$*) $@
 	#$(addprefix -Ibuild/$*/, $(CPATH_BUSYTEX)) 
