@@ -708,7 +708,7 @@ download-native:
 	#$(foreach binname,$(BUSYTEX_WEB2CBIN), echo 'echo $(binname) $$@ 1>&2; $(ROOT)/build/native/texlive/texk/web2c/busyweb2c $(binname) $$@' > build/native/texlive/texk/web2c/web2c/$(binname);)
 	chmod +x $(addprefix build/native/texlive/texk/web2c/, $(BUSYTEX_TEXBIN))  $(addprefix build/native/texlive/texk/web2c/web2c/, $(BUSYTEX_WEB2CBIN))
 
-BusytexAsync.npm.tar:
+npm-package:
 	npm install
 	npm run build
-	tar -cf BusytexAsync.npm.tar $$(find build-js -type f) $$(find typescript -type f) build/wasm/busytex.js build/wasm/busytex.wasm package.json package-lock.json tsconfig.json 
+	npm pack

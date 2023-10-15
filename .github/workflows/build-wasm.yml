@@ -65,9 +65,9 @@ jobs:
 #            make dist-wasm
 
       - name: Build npm package
-        run: make BusytexAsync.npm.tar
+        run: make npm-package
 
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: chown $(whoami) -R . && gh --version && gh release create build_wasm_${{github.sha}}_${{ github.run_id }}_${{ github.run_attempt }} -t "Wasm assets" build/wasm/busytex.js build/wasm/busytex.wasm BusytexAsync.npm.tar
+        run: chown $(whoami) -R . && gh --version && gh release create build_wasm_${{github.sha}}_${{ github.run_id }}_${{ github.run_attempt }} -t "Wasm assets" build/wasm/busytex.js build/wasm/busytex.wasm busytex-async-*.tgz
