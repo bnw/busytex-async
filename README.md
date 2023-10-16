@@ -57,7 +57,7 @@ asynchronously load the missing file, and then continue the WASM execution.
 
 ```mermaid
 sequenceDiagram
-    JavaScript->>LaTeX: Initialize FS with stubs (aka empty files) for all files in our TexLive instalation
+    JavaScript->>LaTeX: Initialize FS with stubs (aka empty files) for all files in our TexLive installation
     JavaScript->>LaTeX: Start LaTeX compilation
     LaTeX->>+kpathsea: Determine path to file X
     kpathsea->>JavaScript: kpathsea determined we need pathToFileX. Pause WASM.
