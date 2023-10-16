@@ -30,7 +30,7 @@ export class BusytexAsync {
     addFile(filename: string, content: ArrayBufferView) {
         assert(!filename.startsWith("/"), "Filename must be relative");
         assert(!filename.startsWith(BusytexAsync.dirWork));
-        this.busytexBin.FS.writeFile(
+        this.FS.writeFile(
             BusytexAsync.dirWork + "/" + filename,
             content
         );
@@ -43,7 +43,7 @@ export class BusytexAsync {
 
     async run(programmWithArguments: string[]) {
         if (this.busytexBin === undefined) {
-            this.initializeBusytexBin();
+            await this.initializeBusytexBin();
         }
         console.log("Wasm loaded");
         await this.callMain(programmWithArguments);
@@ -149,7 +149,7 @@ export class BusytexAsync {
             console.error("Error reading file", texLiveRelativePath, error);
         }
         try {
-            this.busytexBin.FS.writeFile(texLiveRelativePath, content);
+            this.FS.writeFile(texLiveRelativePath, content);
         } catch (error) {
             console.error("Error writen file to MEMFS", texLiveRelativePath, error);
         }
@@ -175,7 +175,7 @@ export class BusytexAsync {
             }
             i++;
             if (i % 10000 === 0) {
-                console.log("Created files:", i);
+                console.log("Created files:", i, "of", filenamesTxt.length);
             }
         }
         await Promise.all(promises);
