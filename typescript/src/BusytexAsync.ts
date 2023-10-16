@@ -1,3 +1,5 @@
+import path from "path";
+
 let busytex_bin_module = require('../../build/wasm/busytex.js');
 
 let assert = console.assert;
@@ -8,6 +10,7 @@ export interface TexLiveConfig {
     binFolder: string;
     print: undefined | any;
     printErr: undefined | any;
+    wasmUri?: string;
 };
 
 export class BusytexAsync {
@@ -63,14 +66,22 @@ export class BusytexAsync {
             }
         };
 
-        const Module = {
+        let Module = {
             print: this.texLiveConfig.print,
             printErr: this.texLiveConfig.printErr,
             //thisProgram: this.thisProgram,
             kpathsea_search__post_hook_js: async (path: string) => findFilePostHook("kpathsea_search__post_hook_js", path),
             kpathsea_find_file_generic__post_hook_js: async (path: string) => findFilePostHook("kpathsea_find_file_generic__post_hook_js", path),
             noInitialRun: true,
-            noExitRuntime: true
+            noExitRuntime: true,
+            locateFile: this.texLiveConfig.wasmUri === undefined ?
+                null :
+                (path: string) => {
+                    if (path.endsWith(".wasm")) {
+                        return this.texLiveConfig.wasmUri;
+                    }
+                    return path;
+                }
         };
 
         this.busytexBin = await busytex_bin_module(Module);

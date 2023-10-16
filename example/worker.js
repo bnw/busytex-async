@@ -14,6 +14,7 @@ const tugOrgTexLiveConfig = {
     binFolder: "texlive/Contents/live/bin/x86_64-linux/",
     print: (message) => postMessage({ type: "print", message: message }),
     printErr: (message) => postMessage({ type: "printErr", message: message }),
+    wasmUri: "../build/wasm/busytex.wasm",
 };
 const busytexAsync = new BusytexAsync.BusytexAsync(tugOrgTexLiveConfig);
 
