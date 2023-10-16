@@ -75,5 +75,5 @@ Future work
 -----
 * Initializing the in-memory filesystem with stubs (aka empty files) for all files in a TexLive installation is slow (~ 15s).
   Instead, one could try to populate the file stubs in the in-memory filesystem on demand (like we do with the files).
-  Most likely, this would require patching `libc` functions used list directories (`fopen`, `open`, ...?).
+  Most likely, this would require patching `libc` functions used to list directories (`fopen`, `open`, ...?).
   
