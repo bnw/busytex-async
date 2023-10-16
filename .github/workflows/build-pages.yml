@@ -23,8 +23,8 @@ jobs:
                 cp ../example/* example/
                 mkdir -p build/wasm/
                 cd build/wasm/
-                wget https://github.com/busytex/busytex/releases/download/${{ github.event.inputs.busytexreleasetag }}/busytex.wasm
-                wget https://github.com/busytex/busytex/releases/download/${{ github.event.inputs.busytexreleasetag }}/busytex.js
+                wget https://github.com/busytex/busytex/releases/download/${{ github.event.inputs.wasmreleasetag }}/busytex.wasm
+                wget https://github.com/busytex/busytex/releases/download/${{ github.event.inputs.wasmreleasetag }}/busytex.js
                 cd ../../
                 mkdir -p build-js/
                 cp ../build-js/BusytexAsync.browser.js build-js/
