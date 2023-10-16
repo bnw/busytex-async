@@ -3,7 +3,7 @@ name: build-pages
 on: 
   workflow_dispatch:
     inputs:
-        busytexreleasetag:
+        wasmreleasetag:
           description: 'wasm_release_tag'
           required: true
 
@@ -22,7 +22,10 @@ jobs:
                 mkdir -p example
                 cp ../example/* example/
                 mkdir -p build/wasm/
-                cp  ../build/wasm/busytex.wasm ../build/wasm/busytex.js build/wasm/
+                cd build/wasm/
+                wget https://github.com/busytex/busytex/releases/download/${{ github.event.inputs.busytexreleasetag }}/busytex.wasm
+                wget https://github.com/busytex/busytex/releases/download/${{ github.event.inputs.busytexreleasetag }}/busytex.js
+                cd ../../
                 mkdir -p build-js/
                 cp ../build-js/BusytexAsync.browser.js build-js/
                 mkdir -p typescript/test/assets
