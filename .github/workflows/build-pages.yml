@@ -27,6 +27,13 @@ jobs:
             
             - uses: actions/checkout@v2
 
+            - run: |
+                mkdir -p build/wasm/
+                cd build/wasm/
+                wget https://github.com/bnw/busytex-async/releases/download/${{ github.event.inputs.wasmreleasetag }}/busytex.wasm
+                wget https://github.com/bnw/busytex-async/releases/download/${{ github.event.inputs.wasmreleasetag }}/busytex.js
+                cd ../../
+
             - run: cd $GITHUB_WORKSPACE && npm install && npm run build
 
             - run: |
@@ -35,10 +42,7 @@ jobs:
                 mkdir -p example
                 cp ../example/* example/
                 mkdir -p build/wasm/
-                cd build/wasm/
-                wget https://github.com/bnw/busytex-async/releases/download/${{ github.event.inputs.wasmreleasetag }}/busytex.wasm
-                wget https://github.com/bnw/busytex-async/releases/download/${{ github.event.inputs.wasmreleasetag }}/busytex.js
-                cd ../../
+                cp ../build/wasm/busytex.wasm ../build/wasm/busytex.js build/wasm/
                 mkdir -p build-js/src/
                 cp ../build-js/src/BusytexAsync.browser.js build-js/src/
                 mkdir -p typescript/test/assets
