@@ -1,0 +1,33 @@
+name: build-pages
+
+on: 
+  workflow_dispatch:
+    inputs:
+        busytexreleasetag:
+          description: 'wasm_release_tag'
+          required: true
+
+jobs:
+    build-pages:
+        runs-on: ubuntu-22.04
+        steps:
+            
+            - uses: actions/checkout@v2
+
+            - run: npm install && npm build
+
+            - run: |
+                mkdir pages
+                cd $GITHUB_WORKSPACE/pages
+                mkdir -p example
+                cp ../example/* example/
+                mkdir -p build/wasm/
+                cp  ../build/wasm/busytex.wasm ../build/wasm/busytex.js build/wasm/
+                mkdir -p build-js/
+                cp ../build-js/BusytexAsync.browser.js build-js/
+                mkdir -p typescript/test/assets
+                cp ../typescript/test/assets/* typescript/test/assets/
+
+            - uses: actions/upload-pages-artifact@v2
+              with:
+                path: $GITHUB_WORKSPACE/pages

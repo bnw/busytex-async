@@ -20,7 +20,9 @@ suite('BusytexAsync', function () {
                 let result = await axios.get("https://tug.org/" + filepath, {responseType: 'arraybuffer'});
                 return Promise.resolve(result.data);
             },
-            binFolder: "texlive/Contents/live/bin/x86_64-linux/"
+            binFolder: "texlive/Contents/live/bin/x86_64-linux/",
+            print: console.log.bind(console),
+            printErr: console.error.bind(console)
         };
 
         let busytexAsync = new BusytexAsync(tugOrgTexLiveConfig);

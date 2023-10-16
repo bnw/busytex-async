@@ -7,7 +7,7 @@
     "example": "example"
   },
   "scripts": {
-    "build": "npx tsc",
+    "build": "npx tsc && npx browserify build-js/src/BusytexAsync.js -o build-js/src/BusytexAsync.browser.js --ignore-missing --standalone BusytexAsync",
     "test": "npm run build && npx mocha build-js/test --ui tdd",
     "createTexLiveFilesList": "npm run build && node build-js/scripts/createTexLiveFileList.js",
     "watch": "tsc -watch -p ./"
@@ -19,6 +19,7 @@
     "@types/node": "^20.8.4",
     "axios": "^1.5.1",
     "basic-ftp": "^5.0.3",
+    "browserify": "^17.0.0",
     "memorystream": "^0.3.1",
     "mocha": "^10.2.0",
     "pdf-parse": "^1.1.1",

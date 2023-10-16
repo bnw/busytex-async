@@ -1,11 +1,13 @@
 let busytex_bin_module = require('../../build/wasm/busytex.js');
-import path = require('path');
-import { assert } from 'console';
+
+let assert = console.assert;
 
 export interface TexLiveConfig {
     getTexLiveListOfFiles: () => Promise<Array<string>>;
     loadTexLiveFile: (input: string) => Promise<ArrayBufferView>;
     binFolder: string;
+    print: undefined | any;
+    printErr: undefined | any;
 };
 
 export class BusytexAsync {
@@ -62,8 +64,8 @@ export class BusytexAsync {
         };
 
         const Module = {
-            print: console.log.bind(console),
-            printErr: console.error.bind(console),
+            print: this.texLiveConfig.print,
+            printErr: this.texLiveConfig.printErr,
             //thisProgram: this.thisProgram,
             kpathsea_search__post_hook_js: async (path: string) => findFilePostHook("kpathsea_search__post_hook_js", path),
             kpathsea_find_file_generic__post_hook_js: async (path: string) => findFilePostHook("kpathsea_find_file_generic__post_hook_js", path),
@@ -170,9 +172,10 @@ export class BusytexAsync {
     }
 
     private ensureFolderOfFilePathExists(filePath: string, FS: any) {
-        const dirname = path.dirname(filePath);
         let pathParts = "";
-        dirname.split("/").forEach(path => {
+        let parts = filePath.split("/");
+        parts.pop();
+        parts.forEach(path => {
             if (path === "") { return; }
             if (path[0] === '.') { return; }
             pathParts += "/" + path;
