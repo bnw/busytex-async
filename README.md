@@ -7,7 +7,7 @@ This project includes the following:
 - Some small modifications to the LaTeX sources to allow asynchronous loading of any latex packages that are required during compilation ([see below for details](#asynchronous-loading-of-latex-library-files)).
 - A small TypeScript library to manage the WASM and the virtual file system.
 
-### [Live demo](https://bnw.github.io/busytex-async/example/)
+Try the **[Live demo](https://bnw.github.io/busytex-async/example/)**.
 
 
 Usage example
@@ -76,4 +76,5 @@ Future work
 * Initializing the in-memory filesystem with stubs (aka empty files) for all files in a TexLive installation is slow (~ 15s).
   Instead, one could try to populate the file stubs in the in-memory filesystem on demand (like we do with the files).
   Most likely, this would require patching `libc` functions used to list directories (`fopen`, `open`, ...?).
-  
+* Investigate strange Tab-Crashes in Firefox. Chrome on Mac and Android works fine, tho.
+* Publish to the npm registry. For now, one can use the tarball npm package from the [releases](https://github.com/bnw/busytex-async/releases/).
