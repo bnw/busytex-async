@@ -8,7 +8,7 @@ const tugOrgTexLiveConfig = {
         return Promise.resolve(newlineSeperatedFileList.split("\n"));
     },
     loadTexLiveFile: async (filepath) => {
-        let result = await fetch("https://corsproxy.io/?https://bnw2.goip.de:8021/TexLive/" + filepath);
+        let result = await fetch("https://bnw2.goip.de:8021/TexLive/" + filepath);
         return result.arrayBuffer().then((buffer) => new Uint8Array(buffer));
     },
     binFolder: "texlive/Contents/live/bin/x86_64-linux/",
